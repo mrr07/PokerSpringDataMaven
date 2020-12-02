@@ -1,8 +1,6 @@
-package it.poker.servlet.user;
+package it.poker.servlet.tavolo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,24 +14,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.poker.model.ruolo.Ruolo;
-import it.poker.model.user.Stato;
+import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.User;
-import it.poker.service.ruolo.RuoloService;
+import it.poker.service.tavolo.TavoloService;
 import it.poker.service.user.UserService;
 
 /**
- * Servlet implementation class PrepareUpdateUserServlet
+ * Servlet implementation class ShowTavoloServlet
  */
-@WebServlet("/PrepareUpdateUserServlet")
-public class PrepareUpdateUserServlet extends HttpServlet {
+@WebServlet("/ShowTavoloServlet")
+public class ShowTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-    private UserService userService;
-	
-	@Autowired
-    private RuoloService ruoloService;
+    private TavoloService tavoloService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -44,7 +38,7 @@ public class PrepareUpdateUserServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PrepareUpdateUserServlet() {
+    public ShowTavoloServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -54,44 +48,32 @@ public class PrepareUpdateUserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// prendo l'id dalla pagina
-		String idDaAggiornare = request.getParameter("idDaAggiornare");
 		
+		// prendo l'id dalla pagina
+		String idDaVisualizzare = request.getParameter("idDaVisualizzare");
+
 		// valido l'id, se non è valido invalido la sessione
-		if (idDaAggiornare == null || idDaAggiornare == "" || !StringUtils.isNumeric(idDaAggiornare)) {
+		if (idDaVisualizzare == null || idDaVisualizzare == "" || !StringUtils.isNumeric(idDaVisualizzare)) {
 			HttpSession session = request.getSession();
 			session.invalidate();
 			response.sendRedirect("login.jsp");
 			return;
 		}
-		
-		// se arrivo qui l'id va bene
-		Long id = Long.parseLong(idDaAggiornare);
 
-		User user = new User();
-		user = userService.findById(id);
-		
-		if(user == null) {
+		// se arrivo qui l'id va bene
+		Long id = Long.parseLong(idDaVisualizzare);
+
+		Tavolo tavoloDaVisualizzare = new Tavolo();
+		tavoloDaVisualizzare = tavoloService.findById(id);
+
+		if (tavoloDaVisualizzare == null) {
 			HttpSession session = request.getSession();
-		    session.invalidate();
-		    response.sendRedirect("login.jsp");
+			session.invalidate();
+			response.sendRedirect("login.jsp");
 		}
-		
-		//lista degli stati 
-		List<Stato> listaStati = new ArrayList<>();
-		listaStati.add(Stato.ATTIVO);
-		listaStati.add(Stato.DISABILITATO);
-		listaStati.add(Stato.CREATO);
-		listaStati.add(Stato.EMPTY);
-		
-		List<Ruolo> listaRuoli = ruoloService.listAllRuoli();
-		
-		request.setAttribute("userDaAggiornare", user);
-		request.setAttribute("listaStati", listaStati);
-		request.setAttribute("listaRuoli", listaRuoli);
-		
-		request.getRequestDispatcher("/user/updateUser.jsp").forward(request, response);
-		
+
+		request.setAttribute("tavoloDaVisualizzare", tavoloDaVisualizzare);
+		request.getRequestDispatcher("/tavolo/showTavolo.jsp").forward(request, response);
 	}
 
 	/**

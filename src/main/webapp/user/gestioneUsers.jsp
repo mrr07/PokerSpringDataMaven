@@ -4,7 +4,7 @@
 <!doctype html>
 <html lang="it">
 <head>
-	<jsp:include page="./header.jsp" />
+	<jsp:include page="../header.jsp" />
 	<title>Gestione Users</title>
 	
 	<!-- style per le pagine diverse dalla index -->
@@ -12,7 +12,7 @@
     
 </head>
 <body>
-	<jsp:include page="./navbar.jsp" />
+	<jsp:include page="../navbar.jsp" />
 	
 	<main role="main" class="container">
 	
@@ -77,8 +77,13 @@
 		                        <td>${ user.credito }</td>
 		                        <td>
 										<a class="btn  btn-sm btn-outline-secondary" href="ShowUserServlet?idDaVisualizzare=<c:out value = "${user.id}"/>">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateUserServlet?idDaAggiornare=<c:out value = "${user.id}"/>">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteUserServlet?idDaEliminare=<c:out value = "${user.id}"/>">Delete</a>	
+										<c:if test="${ user.stato == 'DISABILITATO' }">
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="EnableUserServlet?idDaAttivare=<c:out value = "${user.id}"/>">Attiva</a>
+										</c:if>
+										<c:if test="${ user.stato == 'ATTIVO' }">
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareDeleteUserServlet?idDaEliminare=<c:out value = "${user.id}"/>">Disattiva</a>
+										</c:if>
+										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateUserServlet?idDaAggiornare=<c:out value = "${user.id}"/>">Edit</a>	
 								</td>
 		                    </tr>
          						
@@ -99,7 +104,7 @@
 	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="./footer.jsp" />
+	<jsp:include page="../footer.jsp" />
 	
 </body>
 </html>

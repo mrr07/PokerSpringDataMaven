@@ -13,7 +13,7 @@ public interface UserRepository extends CrudRepository<User, Long>,QueryByExampl
 	
 	List<User> findByNome(String name);
 	
-	@Query("from User u left join fetch u.tavolo t left join fetch u.tavoli ta left join fetch u.ruoli r where u.username = ?1 and u.password = ?2")
+	@Query("from User u join fetch u.ruoli r left join fetch u.tavoli ta left join fetch u.tavolo  where u.username = ?1 and u.password = ?2")
 	User findByUsernameAndPasswordWithTavolo(String username, String password);
 	
 	@Query("select distinct u from User u left join fetch u.tavolo t left join fetch u.tavoli ta left join fetch u.ruoli r where u.id = ?1")

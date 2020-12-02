@@ -48,8 +48,8 @@
 							<div class="form-group col-md-6">
 								<label>Nome <span class="text-danger"></span></label>
 								<input type="text" name="nome" id="nome" class="form-control" placeholder="Inserire il nome"
-									<c:if test="${ user.nome != null || user.nome != '' }">
-										value="${ user.nome }"
+									<c:if test="${ userDaAggiornare.nome != null || userDaAggiornare.nome != '' }">
+										value="${ userDaAggiornare.nome }"
 									</c:if>
 								>           
 							</div>
@@ -58,8 +58,8 @@
 							<div class="form-group col-md-6">
 								<label>Cognome <span class="text-danger"></span></label>
 								<input type="text" name="cognome" id="cognome" class="form-control" placeholder="Inserire il cognome"
-									<c:if test="${ user.cognome != null || user.cognome != '' }">
-										value="${ user.cognome }"
+									<c:if test="${ userDaAggiornare.cognome != null || userDaAggiornare.cognome != '' }">
+										value="${ userDaAggiornare.cognome }"
 									</c:if>
 								>               
 							</div>
@@ -68,86 +68,56 @@
 							<div class="form-group col-md-6">
 								<label>Username <span class="text-danger"></span></label>
 								<input type="text" name="username" id="username" class="form-control" placeholder="Inserire l'username"
-								<c:if test="${ user.username != null || user.username != '' }">
-										value="${ user.username }"
+								<c:if test="${ userDaAggiornare.username != null || userDaAggiornare.username != '' }">
+										value="${ userDaAggiornare.username }"
 									</c:if>
 								>                               
 							</div>
 							
-							<div class="form-group col-md-6">
-								<label>Password <span class="text-danger"></span></label>
-								<input type="password" name="password" id="password" class="form-control" placeholder="Inserire la password"
-								<c:if test="${ user.password != null || user.password != '' }">
-										value="${ user.password }"
-									</c:if>
-								>                               
-							</div>
-							
+							<c:if test="${ userDaAggiornare.stato == 'CREATO' }">
 							<div class="form-group col-md-6">
 									<label>Stato <span class="text-danger"></span></label>
 									<select name="stato" id="stato" class="form-control">
 										<c:forEach items="${ listaStati }" var="stato">
-											<c:if test="${ stato == user.stato }">
-												<option value="${ user.stato }" selected hidden><c:out value = "${ user.stato }"/></option>
+											<c:if test="${ stato == userDaAggiornare.stato }">
+												<option value="${ userDaAggiornare.stato }" selected hidden><c:out value = "${ userDaAggiornare.stato }"/></option>
 											</c:if>
-											<c:if test="${stato != 'EMPTY'}">
+											<c:if test="${stato != 'EMPTY' && stato != 'CREATO'}">
         										<option value="${stato}"><c:out value="${stato}"></c:out></option>
         									</c:if>
     									</c:forEach>
   									</select>
 							</div>
+							</c:if>
 							
+							
+							
+						<c:if test="${ userDaAggiornare.stato == 'CREATO' }">
 							<div class="form-group col-md-6">
-								<label>Esperienza<span class="text-danger"></span></label>
-								<input type="text" name="esperienza" id="esperienza" class="form-control" placeholder="Inserire il grado di esperienza"
-								<c:if test="${ user.esperienza != null || user.esperienza != '' }">
-										value="${ user.esperienza}"
-									</c:if>
-								>                               
-							</div>
-							
-							<div class="form-group col-md-6">
-								<label>Credito<span class="text-danger"></span></label>
-								<input type="text" name="credito" id="credito" class="form-control" placeholder="Inserire il credito"
-								<c:if test="${ user.credito != null || user.credito != '' }">
-										value="${ user.credito }"
-									</c:if>
-								>                               
-							</div>
-							
-							<div class="form-group col-md-6">
-								<label>Data di Registrazione<span class="text-danger"></span></label>
-								<input type="date" name="dataRegistrazione" id="dataRegistrazione" class="form-control" placeholder="Inserire la data"
-								<c:if test="${ user.dataRegistrazione != null || user.dataRegistrazione != '' }">
-										value="${ user.dataRegistrazione }"
-									</c:if>
-								>                               
-							</div>
-							
-							
-							<div class="form-group col-md-6">
-								
-								
+
+
 								<label>Ruolo <span class="text-danger"></span></label><br>
 								<c:forEach items="${ listaRuoli }" var="ruolo">
-									
-										 
-											<input type="checkbox" id="ruolo" name="ruolo" value="${ ruolo.nome }" 
-												<c:forEach items="${ user.ruoli }" var="ruoloUser">
+
+
+									<input type="checkbox" id="ruolo" name="ruolo" value="${ ruolo.nome }"
+										<c:forEach items="${ userDaAggiornare.ruoli }" var="ruoloUser">
 													<c:if test="${ ruoloUser.id == ruolo.id }">
 														checked
 													</c:if>
-												</c:forEach>
-											
-											>
-											<label for="ruolo">${ ruolo.nome }</label><br>
-											
-									
+										            
+										</c:forEach>>
+									<label for="ruolo">${ ruolo.nome }</label>
+									<br>
+
+
 								</c:forEach>
-							
+
 							</div>
+						</c:if>
 							
-							<input type="hidden" id="idDaAggiornare" name="idDaAggiornare" value="<c:out value="${user.id}"/>">
+							
+							<input type="hidden" id="idDaAggiornare" name="idDaAggiornare" value="<c:out value="${userDaAggiornare.id}"/>">
 							
 						</div>
 							

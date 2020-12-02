@@ -58,6 +58,31 @@ public class TavoloServiceImpl implements TavoloService {
 		//bisogna passare al tavolo anche l'oggetto user per far funzionare la query
 		
 		
+		Date data = tavolo.getDataCreazione();
+		String dataDaInserire = null;
+		
+		if(data != null) {
+			int giorno = data.getDate();
+			int mese = data.getMonth() + 1;
+			int anno = data.getYear() + 1900;
+			
+			dataDaInserire = "'"+anno;
+			if (mese >= 1 && mese <= 9) {
+				dataDaInserire = dataDaInserire + "-0" + mese;
+			} else {
+				dataDaInserire = dataDaInserire + "-" + mese;
+			}
+			if(giorno >= 1 && giorno <= 9) {
+				dataDaInserire = dataDaInserire + "-0" + giorno + "'";
+			} else {
+				dataDaInserire = dataDaInserire + "-" + giorno + "'";
+			}
+		}
+		
+		
+		
+		
+		
 		String query = "select t from Tavolo t where t.id = t.id";
 
 		if (StringUtils.isNotEmpty(tavolo.getDenominazione()))
@@ -66,12 +91,8 @@ public class TavoloServiceImpl implements TavoloService {
 			query += " and t.cifraMinima = " + tavolo.getCifraMinima();
 //		if (tavolo.getEsperienzaMinima() != null)
 //			query += " and t.esperienzaMinima = " + tavolo.getEsperienzaMinima();
-		if (tavolo.getDataCreazione() != null)
-			try {
-				query += " and t.dataCreazione = '" + (new SimpleDateFormat("yyyy-MM-dd")).parse(tavolo.getDataCreazione().toString())+ "'";
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		if (dataDaInserire != null)
+				query += " and t.dataCreazione = " + dataDaInserire;
 		if(tavolo.getUser() != null)
 			query += " and t.user = " + tavolo.getUser().getId();
 

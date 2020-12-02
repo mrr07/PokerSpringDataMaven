@@ -1,7 +1,6 @@
 package it.poker.servlet.user;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -16,24 +15,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.poker.model.ruolo.Ruolo;
 import it.poker.model.user.Stato;
 import it.poker.model.user.User;
-import it.poker.service.ruolo.RuoloService;
 import it.poker.service.user.UserService;
 
 /**
- * Servlet implementation class PrepareUpdateUserServlet
+ * Servlet implementation class PrepareEnableUserServlet
  */
-@WebServlet("/PrepareUpdateUserServlet")
-public class PrepareUpdateUserServlet extends HttpServlet {
+@WebServlet("/EnableUserServlet")
+public class EnableUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
     private UserService userService;
-	
-	@Autowired
-    private RuoloService ruoloService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -44,7 +38,7 @@ public class PrepareUpdateUserServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PrepareUpdateUserServlet() {
+    public EnableUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -55,43 +49,32 @@ public class PrepareUpdateUserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// prendo l'id dalla pagina
-		String idDaAggiornare = request.getParameter("idDaAggiornare");
-		
+		String idDaAttivare = request.getParameter("idDaAttivare");
+
 		// valido l'id, se non è valido invalido la sessione
-		if (idDaAggiornare == null || idDaAggiornare == "" || !StringUtils.isNumeric(idDaAggiornare)) {
+		if (idDaAttivare == null || idDaAttivare == "" || !StringUtils.isNumeric(idDaAttivare)) {
 			HttpSession session = request.getSession();
 			session.invalidate();
 			response.sendRedirect("login.jsp");
 			return;
 		}
-		
-		// se arrivo qui l'id va bene
-		Long id = Long.parseLong(idDaAggiornare);
+
+		Long id = Long.parseLong(idDaAttivare);
 
 		User user = new User();
 		user = userService.findById(id);
-		
-		if(user == null) {
-			HttpSession session = request.getSession();
-		    session.invalidate();
-		    response.sendRedirect("login.jsp");
-		}
-		
-		//lista degli stati 
-		List<Stato> listaStati = new ArrayList<>();
-		listaStati.add(Stato.ATTIVO);
-		listaStati.add(Stato.DISABILITATO);
-		listaStati.add(Stato.CREATO);
-		listaStati.add(Stato.EMPTY);
-		
-		List<Ruolo> listaRuoli = ruoloService.listAllRuoli();
-		
-		request.setAttribute("userDaAggiornare", user);
-		request.setAttribute("listaStati", listaStati);
-		request.setAttribute("listaRuoli", listaRuoli);
-		
-		request.getRequestDispatcher("/user/updateUser.jsp").forward(request, response);
-		
+
+		// imposto lo stato su ATTIVO	
+		user.setStato(Stato.ATTIVO);
+
+		// attivo l'utente
+		userService.update(user);
+
+		List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
+		request.setAttribute("successMessage", "L'user è stato disabilitato correttamente");
+		request.setAttribute("listaUsers", listaUsers);
+		request.getRequestDispatcher("/user/gestioneUsers.jsp").forward(request, response);
+
 	}
 
 	/**

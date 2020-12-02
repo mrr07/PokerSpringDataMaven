@@ -75,7 +75,7 @@ public class SearchTavoloServlet extends HttpServlet {
 		}
 		
 		
-		Date dataInserita = new Date();
+		Date dataInserita = null;
 			try {
 				dataInserita = new SimpleDateFormat("yyyy-MM-dd").parse(dataCreazione);
 			} catch (ParseException e) {

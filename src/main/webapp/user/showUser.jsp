@@ -23,50 +23,50 @@
 		    <div class='card-body'>
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">ID:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.id}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.id}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">nome:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.nome}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.nome}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">cognome:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.cognome}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.cognome}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">username:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.username}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.username}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">data registrazione:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.dataRegistrazione}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.dataRegistrazione}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">stato:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.stato}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.stato}"/></dd>
 		    	</dl>
 		    	
 		    	 
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">ruolo/i:</dt>
-				  <c:forEach items="${ user.ruoli }" var="ruolo">
+				  <c:forEach items="${ userDaVisualizzare.ruoli }" var="ruolo">
 				  	<dd class="col-sm-9"><c:out value = "${ruolo.nome}"/></dd>
 				  </c:forEach>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">esperienza:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.esperienza}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.esperienza}"/></dd>
 		    	</dl>
 		    	
 		    	<dl class="row">
 				  <dt class="col-sm-3 text-right">credito:</dt>
-				  <dd class="col-sm-9"><c:out value = "${user.credito}"/></dd>
+				  <dd class="col-sm-9"><c:out value = "${userDaVisualizzare.credito}"/></dd>
 		    	</dl>
 		    	
 		    	

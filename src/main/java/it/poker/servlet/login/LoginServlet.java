@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.poker.dto.UserDTO;
+import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.User;
 import it.poker.service.user.UserService;
 

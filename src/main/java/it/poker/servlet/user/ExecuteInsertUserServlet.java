@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import it.poker.dto.UserDTO;
+import it.poker.model.user.Stato;
 import it.poker.model.user.User;
 import it.poker.service.user.UserService;
 
@@ -82,7 +83,8 @@ public class ExecuteInsertUserServlet extends HttpServlet {
 		userDaInserire.setDataRegistrazione(dataInserimento);
 		
 		userDaInserire.setEsperienza(0);
-		userDaInserire.setCredito(0d);
+		userDaInserire.setCredito(0);
+		userDaInserire.setStato(Stato.CREATO);
 		
 		userDaInserire.setTavolo(null);
 		userDaInserire.setRuoli(null);

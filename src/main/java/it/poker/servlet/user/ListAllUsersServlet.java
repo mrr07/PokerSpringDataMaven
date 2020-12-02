@@ -47,7 +47,7 @@ public class ListAllUsersServlet extends HttpServlet {
 		
 		List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
 		request.setAttribute("listaUsers", listaUsers);
-		request.getRequestDispatcher("gestioneUsers.jsp").forward(request, response);
+		request.getRequestDispatcher("/user/gestioneUsers.jsp").forward(request, response);
 		
 	}
 

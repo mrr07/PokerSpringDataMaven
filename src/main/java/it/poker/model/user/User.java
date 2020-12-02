@@ -35,9 +35,9 @@ public class User {
 	@Temporal(TemporalType.DATE)
 	private Date dataRegistrazione;
 	@Enumerated(EnumType.STRING)
-	private Stato stato = Stato.CREATO;
+	private Stato stato;
 	private Integer esperienza;
-	private Double credito;
+	private Integer credito;
 	
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
@@ -56,7 +56,7 @@ public class User {
 	
 
 	public User(Long id, String nome, String cognome, String username, String password, Date dataRegistrazione,
-			Stato stato, Integer esperienza, Double credito, Set<it.poker.model.ruolo.Ruolo> ruoli, Tavolo tavoloDaGioco,
+			Stato stato, Integer esperienza, Integer credito, Set<it.poker.model.ruolo.Ruolo> ruoli, Tavolo tavoloDaGioco,
 			Set<Tavolo> tavoliCreati) {
 		this.id = id;
 		this.nome = nome;
@@ -136,11 +136,11 @@ public class User {
 		this.esperienza = esperienza;
 	}
 
-	public Double getCredito() {
+	public Integer getCredito() {
 		return credito;
 	}
 
-	public void setCredito(Double credito) {
+	public void setCredito(Integer credito) {
 		this.credito = credito;
 	}
 

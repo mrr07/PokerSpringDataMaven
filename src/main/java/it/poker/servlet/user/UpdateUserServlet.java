@@ -70,145 +70,160 @@ public class UpdateUserServlet extends HttpServlet {
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");
 		String stato = request.getParameter("stato");
-		String esperienza = request.getParameter("esperienza");
-		String credito = request.getParameter("credito");
-		String dataRegistrazione = request.getParameter("dataRegistrazione");
 		String[] listaRuoli = request.getParameterValues("ruolo");
 		
-		UserDTO userDTO = new UserDTO();
-		userDTO.setNome(nome);
-		userDTO.setCognome(cognome);
-		userDTO.setUsername(username);
-		userDTO.setPassword(password);
-		userDTO.setStato(stato);
-		userDTO.setEsperienza(esperienza);
-		userDTO.setCredito(credito);
-		userDTO.setDataRegistrazione(dataRegistrazione);
-		
-		// ruoli che ho selezionato nella form di update
-		List<String> listaRuoliDaPassareDTO = new ArrayList<String>();
-		if(listaRuoli == null) {
-			listaRuoliDaPassareDTO = null;
-		} else {
-			for(int i=0; i<listaRuoli.length; i++) {
-				listaRuoliDaPassareDTO.add(listaRuoli[i]);
-			}
-		}
-		userDTO.setRuoli(listaRuoliDaPassareDTO);
-		
-		List<String> userErrors = userDTO.validazioneFormUpdate();
-		
-		if(!userErrors.isEmpty()) {
-			List<Ruolo> listaRuoliDaRitornareInPagina = ruoloService.listAllRuoli();
+		// stiamo aggiornando un utente che ha uno stato attivo o disabilitato
+		if(stato == null && listaRuoli == null) {
 			
-			List<Stato> listaStati = new ArrayList<>();
-			listaStati.add(Stato.ATTIVO);
-			listaStati.add(Stato.DISABILITATO);
-			listaStati.add(Stato.CREATO);
-			listaStati.add(Stato.EMPTY);
+			UserDTO userDTO = new UserDTO();
+			userDTO.setNome(nome);
+			userDTO.setCognome(cognome);
+			userDTO.setUsername(username);
+			
+			List<String> userErrors = userDTO.validazioneFormUpdate2();
+			
+			if(!userErrors.isEmpty()) {
+				
+				User userDaPassareInForm = new User();
+				userDaPassareInForm.setId(Long.parseLong(idDaAggiornare));
+				userDaPassareInForm.setNome(userDTO.getNome());
+				userDaPassareInForm.setCognome(userDTO.getCognome());
+				userDaPassareInForm.setUsername(userDTO.getUsername());
+				userDaPassareInForm.setStato(null);
+				
+				request.setAttribute("userErrors", userErrors);
+				request.setAttribute("userDaAggiornare", userDaPassareInForm);
+				request.getRequestDispatcher("/user/updateUser.jsp").forward(request, response);
+				return;
+				
+			}
+			
+			User userDaAggiornare = new User();
+			
+			Long id = Long.parseLong(idDaAggiornare);
+			
+			userDaAggiornare = userService.findById(id);
+			
+			userDaAggiornare.setId(id);
+			userDaAggiornare.setNome(userDTO.getNome());
+			userDaAggiornare.setCognome(userDTO.getCognome());
+			userDaAggiornare.setUsername(userDTO.getUsername());
+			
+			userService.update(userDaAggiornare);
+			
+			List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
+			request.setAttribute("successMessage", "L'user è stato modificato correttamente");
+			request.setAttribute("listaUsers", listaUsers);
+			request.getRequestDispatcher("/user/gestioneUsers.jsp").forward(request, response);
+			return;
+		} else {
+			
+			// stiamo aggiornando un utente che in stato di creato
+			
+			UserDTO userDTO = new UserDTO();
+			userDTO.setNome(nome);
+			userDTO.setCognome(cognome);
+			userDTO.setUsername(username);
+			userDTO.setStato(stato);
+			
+			// ruoli che ho selezionato nella form di update
+			List<String> listaRuoliDaPassareDTO = new ArrayList<String>();
+			if(listaRuoli == null) {
+				listaRuoliDaPassareDTO = null;
+			} else {
+				for(int i=0; i<listaRuoli.length; i++) {
+					listaRuoliDaPassareDTO.add(listaRuoli[i]);
+				}
+			}
+			userDTO.setRuoli(listaRuoliDaPassareDTO);
+			
+			List<String> userErrors = userDTO.validazioneFormUpdate1();
+			
+			if(!userErrors.isEmpty()) {
+				List<Ruolo> listaRuoliDaRitornareInPagina = ruoloService.listAllRuoli();
+				
+				List<Stato> listaStati = new ArrayList<>();
+				listaStati.add(Stato.ATTIVO);
+				listaStati.add(Stato.DISABILITATO);
+				listaStati.add(Stato.CREATO);
+				listaStati.add(Stato.EMPTY);
+				
+				Set<Ruolo> listaRuoliSelezionati = new HashSet<Ruolo>();
+				if(userDTO.getRuoli() == null) {
+					listaRuoliSelezionati = null;
+				} else {
+					List<String> listaTemp = userDTO.getRuoli();
+					for(int i=0; i<listaTemp.size(); i++) {
+						String nomer = listaTemp.get(i);
+						Ruolo ruoloSelezionato = ruoloService.findByNome(nomer);
+						ruoloSelezionato.getNome();
+						listaRuoliSelezionati.add(ruoloSelezionato);
+					}
+				}
+				
+				
+				
+				User userDaPassareInForm = new User();
+				userDaPassareInForm.setId(Long.parseLong(idDaAggiornare));
+				userDaPassareInForm.setNome(userDTO.getNome());
+				userDaPassareInForm.setCognome(userDTO.getCognome());
+				userDaPassareInForm.setUsername(userDTO.getUsername());
+				userDaPassareInForm.setStato(Stato.valueOf(userDTO.getStato()));
+				
+				userDaPassareInForm.setRuoli(listaRuoliSelezionati);
+				
+				
+				request.setAttribute("listaStati", listaStati);
+				request.setAttribute("listaRuoli", listaRuoliDaRitornareInPagina);
+				request.setAttribute("userErrors", userErrors);
+				request.setAttribute("userDaAggiornare", userDaPassareInForm);
+				request.getRequestDispatcher("/user/updateUser.jsp").forward(request, response);
+				return;
+				
+			}
+			
+			User userDaAggiornare = new User();
+			
+			Long id = Long.parseLong(idDaAggiornare);
+			
+			userDaAggiornare = userService.findById(id);
+			
+			
+			userDaAggiornare.setId(id);
+			userDaAggiornare.setNome(userDTO.getNome());
+			userDaAggiornare.setCognome(userDTO.getCognome());
+			userDaAggiornare.setUsername(userDTO.getUsername());
+			userDaAggiornare.setStato(Stato.valueOf(userDTO.getStato()));
 			
 			Set<Ruolo> listaRuoliSelezionati = new HashSet<Ruolo>();
-			if(userDTO.getRuoli() == null) {
-				listaRuoliSelezionati = null;
-			} else {
-				List<String> listaTemp = userDTO.getRuoli();
-				for(int i=0; i<listaTemp.size(); i++) {
-					String nomer = listaTemp.get(i);
-					Ruolo ruoloSelezionato = ruoloService.findByNome(nomer);
-					ruoloSelezionato.getNome();
-					listaRuoliSelezionati.add(ruoloSelezionato);
-				}
+			List<String> listaTemp = userDTO.getRuoli();
+			for(int i=0; i<listaTemp.size(); i++) {
+				String nomeRuolo = listaTemp.get(i);
+				Ruolo ruoloSelezionato = ruoloService.findByNome(nomeRuolo);
+				ruoloSelezionato.getNome();
+				listaRuoliSelezionati.add(ruoloSelezionato);
 			}
 			
+			userDaAggiornare.setRuoli(listaRuoliSelezionati);
+			
+			userService.update(userDaAggiornare);
 			
 			
-			User userDaPassareInForm = new User();
-			userDaPassareInForm.setNome(userDTO.getNome());
-			userDaPassareInForm.setCognome(userDTO.getCognome());
-			userDaPassareInForm.setUsername(userDTO.getUsername());
-			userDaPassareInForm.setPassword(userDTO.getPassword());
-			userDaPassareInForm.setStato(Stato.valueOf(userDTO.getStato()));
-			
-			Date dataInserita = new Date();
-			if(userDTO.getDataRegistrazione() != "") {
-				try {
-					dataInserita = new SimpleDateFormat("yyyy-MM-dd").parse(dataRegistrazione);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			} else {
-				dataInserita = null;
-			}
-			
-			userDaPassareInForm.setDataRegistrazione(dataInserita);
+			List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
+			request.setAttribute("successMessage", "L'user è stato modificato correttamente");
+			request.setAttribute("listaUsers", listaUsers);
+			request.getRequestDispatcher("/user/gestioneUsers.jsp").forward(request, response);
 			
 			
-			userDaPassareInForm.setEsperienza(Integer.parseInt(userDTO.getEsperienza()));
-			userDaPassareInForm.setCredito(Double.parseDouble(userDTO.getCredito()));
-			userDaPassareInForm.setRuoli(listaRuoliSelezionati);
-			
-			
-			request.setAttribute("listaStati", listaStati);
-			request.setAttribute("listaRuoli", listaRuoliDaRitornareInPagina);
-			request.setAttribute("userErrors", userErrors);
-			request.setAttribute("user", userDaPassareInForm);
-			request.getRequestDispatcher("/user/updateUser.jsp").forward(request, response);
-			return;
-			
-		}
-		
-		User userDaAggiornare = new User();
-		
-		Long id = Long.parseLong(idDaAggiornare);
-		
-		
-		Date dataInserita = new Date();
-		if(userDTO.getDataRegistrazione() != "") {
-			try {
-				dataInserita = new SimpleDateFormat("yyyy-MM-dd").parse(dataRegistrazione);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		} else {
-			dataInserita = null;
 		}
 		
 		
 		
-		userDaAggiornare.setId(id);
-		userDaAggiornare.setNome(userDTO.getNome());
-		userDaAggiornare.setCognome(userDTO.getCognome());
-		userDaAggiornare.setUsername(userDTO.getUsername());
-		userDaAggiornare.setPassword(userDTO.getPassword());
-		userDaAggiornare.setStato(Stato.valueOf(userDTO.getStato()));
-		userDaAggiornare.setDataRegistrazione(dataInserita);
-		userDaAggiornare.setEsperienza(Integer.parseInt(userDTO.getEsperienza()));
-		userDaAggiornare.setCredito(Double.parseDouble(userDTO.getCredito()));
-		
-		Set<Ruolo> listaRuoliSelezionati = new HashSet<Ruolo>();
-		List<String> listaTemp = userDTO.getRuoli();
-		for(int i=0; i<listaTemp.size(); i++) {
-			String nomer = listaTemp.get(i);
-			Ruolo ruoloSelezionato = ruoloService.findByNome(nomer);
-			ruoloSelezionato.getNome();
-			listaRuoliSelezionati.add(ruoloSelezionato);
-		}
-		
-		userDaAggiornare.setRuoli(listaRuoliSelezionati);
-		
-		userService.update(userDaAggiornare);
-		
-		
-		List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
-		request.setAttribute("successMessage", "L'user è stato modificato correttamente");
-		request.setAttribute("listaUsers", listaUsers);
-		request.getRequestDispatcher("gestioneUsers.jsp").forward(request, response);
 		
 		
 		/*
-		 * TODO commentare il codice e scriver eun metodo utils per il cast delle date
+		 * TODO commentare il codice 
 		 */
 		
 		

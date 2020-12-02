@@ -20,5 +20,7 @@ public interface UserService {
 	public User findByUsernameAndPassword(String username, String password);
 	
 	public List<User> listAllUsersWithTavoliAndRuoli();
+	
+	public List<User> findByExample(User user);
 
 }

@@ -68,7 +68,7 @@ public class ShowUserServlet extends HttpServlet {
 		    response.sendRedirect("login.jsp");
 		}
 		
-		request.setAttribute("user", user);
+		request.setAttribute("userDaVisualizzare", user);
 		request.getRequestDispatcher("/user/showUser.jsp").forward(request, response);
 		
 		

@@ -64,9 +64,9 @@
 		                        <td>${ tavolo.esperienzaMinima }</td>
 		                        <td>${ tavolo.dataCreazione }</td>
 		                        <td>
-										<a class="btn  btn-sm btn-outline-secondary" href="ShowUserServlet?idDaVisualizzare=<c:out value = "${user.id}"/>">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateUserServlet?idDaAggiornare=<c:out value = "${user.id}"/>">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteUserServlet?idDaEliminare=<c:out value = "${user.id}"/>">Delete</a>	
+										<a class="btn  btn-sm btn-outline-secondary" href="ShowTavoloServlet?idDaVisualizzare=<c:out value = "${tavolo.id}"/>">Visualizza</a>
+										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateTavoloServlet?idDaAggiornare=<c:out value = "${tavolo.id}"/>">Edit</a>
+										<a class="btn btn-outline-danger btn-sm" href="PrepareDeleteTavoloServlet?idDaEliminare=<c:out value = "${tavolo.id}"/>">Delete</a>	
 								</td>
 		                    </tr>
          						

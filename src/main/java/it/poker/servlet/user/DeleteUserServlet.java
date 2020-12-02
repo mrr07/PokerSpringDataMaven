@@ -15,8 +15,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.Stato;
 import it.poker.model.user.User;
+import it.poker.service.tavolo.TavoloService;
 import it.poker.service.user.UserService;
 
 /**
@@ -28,6 +30,8 @@ public class DeleteUserServlet extends HttpServlet {
 	
 	@Autowired
     private UserService userService;
+	
+	
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -68,12 +72,15 @@ public class DeleteUserServlet extends HttpServlet {
 		user.setTavolo(null);
 		user.setStato(Stato.DISABILITATO);
 		
+		//elimino l'utente
 		userService.update(user);
+		
+		
 		
 		List<User> listaUsers = userService.listAllUsersWithTavoliAndRuoli();
 		request.setAttribute("successMessage", "L'user è stato disabilitato correttamente");
 		request.setAttribute("listaUsers", listaUsers);
-		request.getRequestDispatcher("gestioneUsers.jsp").forward(request, response);
+		request.getRequestDispatcher("/user/gestioneUsers.jsp").forward(request, response);
 
 		
 	}
