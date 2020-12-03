@@ -20,6 +20,10 @@ public interface TavoloService {
 	public List<Tavolo> findByExample(Tavolo tavolo);
 	
 	public List<Tavolo> findByIDUser(Long id);
+	
+	public Tavolo findByIDWithUsers(Long id);
+	
+	public List<Tavolo> findByIDUserWithGiocatori(Long id);
 
 	
 }

@@ -104,4 +104,14 @@ public class TavoloServiceImpl implements TavoloService {
 		return (List<Tavolo>) tavoloRepository.findByIDUser(id);
 	}
 
+	@Override
+	public Tavolo findByIDWithUsers(Long id) {
+		return tavoloRepository.findByIDWithUsers(id);
+	}
+
+	@Override
+	public List<Tavolo> findByIDUserWithGiocatori(Long id) {
+		return tavoloRepository.findByIDUserWithGiocatori(id);
+	}
+
 }

@@ -42,7 +42,7 @@
 	      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
 	      <p>
 	      <c:if test = "${admin == '1' || special == '1' || player == '1'}">
-	      		<a class="btn btn-primary btn-lg" href="ListaCategorieServlet?ruoloUtente=<c:out value = "${ utente.ruolo }"/>" role="button">Play Management &raquo;</a>
+	      		<a class="btn btn-primary btn-lg" href="management/managementHome.jsp" role="button">Play Management &raquo;</a>
 	      </c:if>
 	      <c:if test="${ admin == '1'  || special == '1' }">
 	      	<a class="btn btn-primary btn-lg" href="tavolo/gestioneTavoli.jsp" role="button">Gestione Tavoli &raquo;</a>

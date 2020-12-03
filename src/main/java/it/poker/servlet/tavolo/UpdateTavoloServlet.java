@@ -1,9 +1,6 @@
 package it.poker.servlet.tavolo;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -23,10 +20,10 @@ import it.poker.model.user.User;
 import it.poker.service.tavolo.TavoloService;
 
 /**
- * Servlet implementation class SearchTavoloServlet
+ * Servlet implementation class UpdateTavoloServlet
  */
-@WebServlet("/SearchTavoloServlet")
-public class SearchTavoloServlet extends HttpServlet {
+@WebServlet("/UpdateTavoloServlet")
+public class UpdateTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
@@ -41,7 +38,7 @@ public class SearchTavoloServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchTavoloServlet() {
+    public UpdateTavoloServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -59,46 +56,54 @@ public class SearchTavoloServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//prendo i dati dalla form
+		// prendo i dati dalla form
+		String idDaAggiornare = request.getParameter("idDaAggiornare");
+		Long id = Long.parseLong(idDaAggiornare);
+		
 		String denominazione = request.getParameter("denominazione");
 		String cifraMinima = request.getParameter("cifraMinima");
-		String dataCreazione = request.getParameter("dataCreazione");
+		String esperienzaMinima = request.getParameter("esperienzaMinima");
 		
+		// comincia la validazione dei dati
+		TavoloDTO tavoloDTO = new TavoloDTO();
 		
-		Tavolo tavoloDaCercare = new Tavolo();
+		tavoloDTO.setId(id);
+		tavoloDTO.setDenominazione(denominazione);
+		tavoloDTO.setCifraMinima(cifraMinima);
+		tavoloDTO.setEsperienzaMinima(esperienzaMinima);
 		
-		tavoloDaCercare.setDenominazione(denominazione);
+		List<String> tavoloErrors = tavoloDTO.validazioneCreazioneTavolo();
 		
-		tavoloDaCercare.setCifraMinima(null);
-		if(cifraMinima != "") {
-			tavoloDaCercare.setCifraMinima(Integer.parseInt(cifraMinima));
+		if(!tavoloErrors.isEmpty()) {
+			request.setAttribute("tavoloDaAggiornare", tavoloDTO);
+			request.setAttribute("tavoloErrors", tavoloErrors);
+			request.getRequestDispatcher("/tavolo/updateTavolo.jsp").forward(request, response);
+			return;
 		}
 		
+		//se arrivo qui la validazione è andata a buon fine
+		Tavolo tavoloDaAggiornare = TavoloDTO.buildModelFromDto(tavoloDTO);
 		
-		Date dataInserita = null;
-			try {
-				dataInserita = new SimpleDateFormat("yyyy-MM-dd").parse(dataCreazione);
-			} catch (ParseException e) {
-				dataInserita = null;
-			}
+		// al tavolo manca la data e l'user che ha creato il tavolo, dobbiamo recuperarli dal db
+		Tavolo tavoloTemp = tavoloService.findById(tavoloDaAggiornare.getId());
+		tavoloDaAggiornare.setDataCreazione(tavoloTemp.getDataCreazione());
+		tavoloDaAggiornare.setUser(tavoloTemp.getUser());
 		
-		tavoloDaCercare.setDataCreazione(dataInserita);
 		
-		//riprendo l'user in sessione
+		//aggiorno il tavolo
+		tavoloService.update(tavoloDaAggiornare);
+		
+		//ritorno alla lista di tutti i tavoli con un messaggio di successo
 		HttpSession session = request.getSession();
-		User userDelTavolo = (User)session.getAttribute("user");
 		
-		tavoloDaCercare.setUser(userDelTavolo);
+		User userInSessione = (User)session.getAttribute("user");
 		
-		List<Tavolo> listaTavoliDiUser = tavoloService.findByExample(tavoloDaCercare);
-		
-		request.setAttribute("listaTavoliUser", listaTavoliDiUser);
+		List<Tavolo> listaTavoli = tavoloService.findByIDUserWithGiocatori(userInSessione.getId());
+		request.setAttribute("listaTavoliUser", listaTavoli);
+		request.setAttribute("successMessage", "modifica effettuata con successo");
 		request.getRequestDispatcher("/tavolo/listTavoli.jsp").forward(request, response);
-		
-		/*
-		 * TODO implementare DTO
-		 */
-	
+
+		return;
 	}
 
 }

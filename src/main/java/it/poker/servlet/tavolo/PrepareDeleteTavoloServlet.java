@@ -1,6 +1,7 @@
-package it.poker.servlet.user;
+package it.poker.servlet.tavolo;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,21 +15,30 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import it.poker.model.tavolo.Tavolo;
+import it.poker.model.user.User;
 import it.poker.service.tavolo.TavoloService;
 
 /**
- * Servlet implementation class PrepareDeleteUserServlet
+ * Servlet implementation class PrepareDeleteTavoloServlet
  */
-@WebServlet("/PrepareDeleteUserServlet")
-public class PrepareDeleteUserServlet extends HttpServlet {
+@WebServlet("/PrepareDeleteTavoloServlet")
+public class PrepareDeleteTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	@Autowired
+    private TavoloService tavoloService;
 	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PrepareDeleteUserServlet() {
+    public PrepareDeleteTavoloServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,9 +48,10 @@ public class PrepareDeleteUserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//prendo l'id dalla pagina
+		// prendo l'id dalla pagina
 		String idDaEliminare = request.getParameter("idDaEliminare");
-		
+		Long id = Long.parseLong(idDaEliminare);
+
 		// valido l'id, se non è valido invalido la sessione
 		if (idDaEliminare == null || idDaEliminare == "" || !StringUtils.isNumeric(idDaEliminare)) {
 			HttpSession session = request.getSession();
@@ -49,8 +60,31 @@ public class PrepareDeleteUserServlet extends HttpServlet {
 			return;
 		}
 		
-		request.setAttribute("idDaEliminare", idDaEliminare);
-		request.getRequestDispatcher("/user/confermaEliminazioneUser.jsp").forward(request, response);
+		Tavolo tavoloDaEliminare = tavoloService.findByIDWithUsers(id);
+		
+		if(tavoloDaEliminare.getUsers().isEmpty()) {
+			request.setAttribute("idDaEliminare", idDaEliminare);
+			request.getRequestDispatcher("/tavolo/confermaEliminazioneTavolo.jsp").forward(request, response);
+			return;
+		}else {
+			
+			HttpSession session = request.getSession();
+			
+			User userInSessione = (User)session.getAttribute("user");
+			
+			List<Tavolo> listaTavoli = tavoloService.findByIDUserWithGiocatori(userInSessione.getId());
+			request.setAttribute("listaTavoliUser", listaTavoli);
+			request.setAttribute("errorMessage", "Impossibile eliminare il tavolo, alcuni giocatori sono ancora attivi sul tavolo da eliminare");
+			request.getRequestDispatcher("/tavolo/listTavoli.jsp").forward(request, response);
+	
+			return;
+		}
+		
+		/*
+		 * TODO far ritornare alla pagina della ricerca
+		 */
+
+		
 		
 	}
 

@@ -1,11 +1,17 @@
 package it.poker.dto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+
+import it.poker.model.tavolo.Tavolo;
+import it.poker.model.user.User;
 
 public class TavoloDTO {
 
@@ -98,7 +104,54 @@ public class TavoloDTO {
 			
 
 			return result;
+	}
+		
+	public static Tavolo buildModelFromDto(TavoloDTO tavoloDTO) {
+		
+		Tavolo result = new Tavolo();
+		
+		if(tavoloDTO.getId() != null) {
+			result.setId(tavoloDTO.getId());
+		} else {
+			result.setId(null);
 		}
+		
+		if(tavoloDTO.getDenominazione() != null || tavoloDTO.getDenominazione() != "") {
+			result.setDenominazione(tavoloDTO.getDenominazione());
+		} else {
+			result.setDenominazione("");
+		}
+		
+		if(tavoloDTO.getCifraMinima() != null || tavoloDTO.getCifraMinima() != "") {
+			result.setCifraMinima(Integer.parseInt(tavoloDTO.getCifraMinima()));
+		} else {
+			result.setCifraMinima(null);
+		}
+		
+		if(tavoloDTO.getEsperienzaMinima() != null || tavoloDTO.getEsperienzaMinima() != "") {
+			result.setEsperienzaMinima(Integer.parseInt(tavoloDTO.getEsperienzaMinima()));
+		} else {
+			result.setEsperienzaMinima(null);
+		}
+		
+		Date data = null;
+		if(tavoloDTO.getDataCreazione() != null && tavoloDTO.getDataCreazione() != "") {
+			
+			try {
+				data = new SimpleDateFormat("yyyy-MM-dd").parse(tavoloDTO.dataCreazione);
+			} catch (ParseException e) {
+				System.out.println("impossibile convertire la stringa in data");
+			}
+			
+		}
+		result.setDataCreazione(data);
+		
+		
+		
+		return result;
+		
+	}
+	
 	
 	
 	
