@@ -144,7 +144,7 @@
 								<c:when test="${ userCercato.ruoli == null || empty userCercato.ruoli }">
 								<c:forEach items="${ listaRuoli }" var="ruolo">
 
-									<input type="checkbox" id="ruolo" name="ruolo" value="${ ruolo.nome }">
+									<input type="radio" id="ruolo" name="ruolo" value="${ ruolo.nome }">
 									<label for="ruolo">${ ruolo.nome }</label>
 									<br>
 
@@ -154,7 +154,7 @@
 								<c:otherwise >
 								<c:forEach items="${ listaRuoli }" var="ruolo">
 
-									<input type="checkbox" id="ruolo" name="ruolo" value="${ ruolo.nome }"
+									<input type="radio" id="ruolo" name="ruolo" value="${ ruolo.nome }"
 										<c:forEach items="${ userCercato.ruoli }" var="ruoloUser">
 													<c:if test="${ ruoloUser == ruolo.nome }">
 														checked
