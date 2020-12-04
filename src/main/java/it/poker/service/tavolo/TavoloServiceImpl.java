@@ -89,8 +89,10 @@ public class TavoloServiceImpl implements TavoloService {
 			query += " and t.denominazione like '%" + tavolo.getDenominazione() + "%' ";
 		if (tavolo.getCifraMinima() != null)
 			query += " and t.cifraMinima = " + tavolo.getCifraMinima();
-//		if (tavolo.getEsperienzaMinima() != null)
-//			query += " and t.esperienzaMinima = " + tavolo.getEsperienzaMinima();
+		/*
+		 * if (tavolo.getEsperienzaMinima() != null)
+	     * query += " and t.esperienzaMinima = " + tavolo.getEsperienzaMinima();
+		 */
 		if (dataDaInserire != null)
 				query += " and t.dataCreazione = " + dataDaInserire;
 		if(tavolo.getUser() != null)

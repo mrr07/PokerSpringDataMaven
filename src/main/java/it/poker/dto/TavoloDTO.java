@@ -86,24 +86,20 @@ public class TavoloDTO {
 	}
 	
 	// validazione dell'input della ricerca del tavolo
-		public List<String> validazioneSearchTavolo() {
-			List<String> result = new ArrayList<String>();
-			
-			String regexData = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
-			
-			
-			Pattern pattern = Pattern.compile(regexData);
-			Matcher matcher = pattern.matcher(dataCreazione);
+	public List<String> validazioneSearchTavolo() {
+		List<String> result = new ArrayList<String>();
 
-			if (StringUtils.isBlank(this.denominazione))
-				result.add("Il campo denominazione non può essere vuoto");
-			if(StringUtils.isBlank(this.cifraMinima) || !StringUtils.isNumeric(this.cifraMinima))
-				result.add("Il campo cifra minima non può essere vuoto");
-			if(StringUtils.isBlank(this.dataCreazione) || matcher.matches())
-				result.add("Il campo data di registrazione non può essere vuoto");
-			
+		String regexData = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
 
-			return result;
+		Pattern pattern = Pattern.compile(regexData);
+		Matcher matcher = pattern.matcher(dataCreazione);
+
+		if (!StringUtils.isBlank(this.cifraMinima) && !StringUtils.isNumeric(this.cifraMinima))
+			result.add("Il campo cifra minima non può essere vuoto");
+		if (matcher.matches())
+			result.add("Il campo data di registrazione non può essere vuoto");
+
+		return result;
 	}
 		
 		

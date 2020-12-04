@@ -64,25 +64,24 @@ public class SearchTavoloServlet extends HttpServlet {
 		String cifraMinima = request.getParameter("cifraMinima");
 		String dataCreazione = request.getParameter("dataCreazione");
 		
+		// incomincia la validazione dei dati presi dalla form
+		TavoloDTO tavoloDTO = new TavoloDTO();
+		tavoloDTO.setDenominazione(denominazione);
+		tavoloDTO.setDataCreazione(dataCreazione);
+		tavoloDTO.setCifraMinima(cifraMinima);
 		
-		Tavolo tavoloDaCercare = new Tavolo();
+		List<String> tavoloErrors = tavoloDTO.validazioneSearchTavolo();
 		
-		tavoloDaCercare.setDenominazione(denominazione);
-		
-		tavoloDaCercare.setCifraMinima(null);
-		if(cifraMinima != "") {
-			tavoloDaCercare.setCifraMinima(Integer.parseInt(cifraMinima));
+		if(!tavoloErrors.isEmpty()) {
+			request.setAttribute("tavoloErrors", tavoloErrors);
+			request.setAttribute("tavoloCercato", tavoloDTO);
+			request.getRequestDispatcher("/tavolo/searchTavolo.jsp").forward(request, response);
 		}
 		
 		
-		Date dataInserita = null;
-			try {
-				dataInserita = new SimpleDateFormat("yyyy-MM-dd").parse(dataCreazione);
-			} catch (ParseException e) {
-				dataInserita = null;
-			}
+		// la validazione è andata a buon fine
+		Tavolo tavoloDaCercare = TavoloDTO.buildModelFromDto(tavoloDTO);
 		
-		tavoloDaCercare.setDataCreazione(dataInserita);
 		
 		//riprendo l'user in sessione
 		HttpSession session = request.getSession();
@@ -90,14 +89,13 @@ public class SearchTavoloServlet extends HttpServlet {
 		
 		tavoloDaCercare.setUser(userDelTavolo);
 		
+		//effettuo la ricerca
 		List<Tavolo> listaTavoliDiUser = tavoloService.findByExample(tavoloDaCercare);
 		
 		request.setAttribute("listaTavoliUser", listaTavoliDiUser);
 		request.getRequestDispatcher("/tavolo/listTavoli.jsp").forward(request, response);
 		
-		/*
-		 * TODO implementare DTO
-		 */
+		
 	
 	}
 

@@ -53,18 +53,39 @@
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label>Denominazione <span class="text-danger">*</span></label>
-								<input type="text" name="denominazione" id="denominazione" class="form-control" placeholder="Inserire la denominazione" >
+								<input type="text" name="denominazione" id="denominazione" class="form-control"
+								<c:if test="${ tavoloCercato.denominazione == null || tavoloCercato.denominazione == '' }">
+									placeholder="Inserire la denominazione"
+								</c:if>
+								<c:if test="${ tavoloCercato.denominazione != null || tavoloCercato.denominazione != '' }">
+									value="<c:out value = "${tavoloCercato.denominazione}"/>"
+								</c:if>
+								>
 							</div>
 							
 							<div class="form-group col-md-6">
 								<label>Cifra Minima Per Entrare <span class="text-danger">*</span></label>
-								<input type="number" name="cifraMinima" id="cifraMinima" class="form-control" placeholder="Inserire la cifra minima per entrare in partita" >
+								<input type="number" name="cifraMinima" id="cifraMinima" class="form-control"
+								<c:if test="${ tavoloCercato.cifraMinima == null || tavoloCercato.cifraMinima == '' }">
+									placeholder="Inserire la cifra minima"
+								</c:if>
+								<c:if test="${ tavoloCercato.cifraMinima != null || tavoloCercato.cifraMinima != '' }">
+									value="<c:out value = "${tavoloCercato.cifraMinima}"/>"
+								</c:if>
+								>
 							</div>
 							
 							
 							<div class="form-group col-md-6">
 								<label>Data di Creazione del tavolo<span class="text-danger"></span></label>
-								<input type="date" name="dataCreazione" id="dataRCreazione" class="form-control">                               
+								<input type="date" name="dataCreazione" id="dataRCreazione" class="form-control"
+								<c:if test="${ tavoloCercato.dataCreazione == null || tavoloCercato.dataCreazione == '' }">
+									placeholder="Inserire la data creazione"
+								</c:if>
+								<c:if test="${ tavoloCercato.dataCreazione != null || tavoloCercato.dataCreazione != '' }">
+									value="<c:out value = "${tavoloCercato.dataCreazione}"/>"
+								</c:if>
+								>                               
 							</div>
 							
 						</div>
