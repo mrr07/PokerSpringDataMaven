@@ -3,7 +3,6 @@ package it.poker.service.tavolo;
 import java.util.List;
 
 import it.poker.model.tavolo.Tavolo;
-import it.poker.model.user.User;
 
 public interface TavoloService {
 

@@ -1,7 +1,5 @@
 package it.poker.service.tavolo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +50,7 @@ public class TavoloServiceImpl implements TavoloService {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<Tavolo> findByExample(Tavolo tavolo) {
 		
@@ -116,6 +115,7 @@ public class TavoloServiceImpl implements TavoloService {
 		return tavoloRepository.findByIDUserWithGiocatori(id);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<Tavolo> findByExample2(Tavolo tavolo) {
 		

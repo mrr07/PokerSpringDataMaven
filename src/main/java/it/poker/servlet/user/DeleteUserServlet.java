@@ -15,10 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.Stato;
 import it.poker.model.user.User;
-import it.poker.service.tavolo.TavoloService;
 import it.poker.service.user.UserService;
 
 /**

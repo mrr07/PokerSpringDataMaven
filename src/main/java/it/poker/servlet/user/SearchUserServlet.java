@@ -114,7 +114,7 @@ public class SearchUserServlet extends HttpServlet {
 		}
 		
 		// se arrivo qui la validazione è andata a buon fine
-		User userDaCercare = userDTO.buildModelFromDto(userDTO);
+		User userDaCercare = UserDTO.buildModelFromDto(userDTO);
 		
 		Set<Ruolo> ruoliUser = new HashSet<>();
 		

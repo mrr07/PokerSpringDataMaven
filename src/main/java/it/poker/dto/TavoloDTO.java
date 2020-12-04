@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import it.poker.model.tavolo.Tavolo;
-import it.poker.model.user.User;
 
 public class TavoloDTO {
 

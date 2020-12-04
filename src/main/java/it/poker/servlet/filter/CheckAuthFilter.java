@@ -30,7 +30,7 @@ public class CheckAuthFilter implements Filter {
 	// tutti i percorsi a cui solo l'admin può accedere
 	private static final String[] PROTECTED_URLS_ADMIN = {"/user/"};
 	
-	// tutti i percorsi a cui solo lo special player può accedere può accedere
+	// tutti i percorsi a cui solo lo special player può accedere
 	private static final String[] PROTECTED_URLS_SPECIAL = { "/tavolo/" };
 
 	public CheckAuthFilter() {
@@ -39,6 +39,7 @@ public class CheckAuthFilter implements Filter {
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
+	@SuppressWarnings("unused")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 

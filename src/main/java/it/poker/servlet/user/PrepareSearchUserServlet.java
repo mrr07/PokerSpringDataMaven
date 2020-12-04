@@ -17,7 +17,6 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import it.poker.model.ruolo.Ruolo;
 import it.poker.model.user.Stato;
 import it.poker.service.ruolo.RuoloService;
-import it.poker.service.user.UserService;
 
 /**
  * Servlet implementation class PrepareSearchUserServlet
@@ -25,9 +24,6 @@ import it.poker.service.user.UserService;
 @WebServlet("/user/PrepareSearchUserServlet")
 public class PrepareSearchUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	@Autowired
-    private UserService userService;
 	
 	@Autowired
     private RuoloService ruoloService;

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.poker.model.ruolo.Ruolo;
-import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.User;
 import it.poker.repository.user.UserRepository;
 
@@ -71,6 +70,7 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findAllWithTavoliAndRuoli();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<User> findByExample(User user) {
 		
