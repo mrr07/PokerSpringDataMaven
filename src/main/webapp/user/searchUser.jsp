@@ -137,39 +137,23 @@
 							</div>
 							
 							<div class="form-group col-md-6">
-
-
-								<label>Ruolo <span class="text-danger"></span></label><br>
-								<c:choose>
-								<c:when test="${ userCercato.ruoli == null || empty userCercato.ruoli }">
-								<c:forEach items="${ listaRuoli }" var="ruolo">
-
-									<input type="radio" id="ruolo" name="ruolo" value="${ ruolo.nome }">
-									<label for="ruolo">${ ruolo.nome }</label>
-									<br>
-
-								</c:forEach>
-								</c:when>
-								
-								<c:otherwise >
-								<c:forEach items="${ listaRuoli }" var="ruolo">
-
-									<input type="radio" id="ruolo" name="ruolo" value="${ ruolo.nome }"
-										<c:forEach items="${ userCercato.ruoli }" var="ruoloUser">
-													<c:if test="${ ruoloUser == ruolo.nome }">
-														checked
-													</c:if>
-										            
-										</c:forEach>
-									>
-								<label for="ruolo">${ ruolo.nome }</label><br>
-								</c:forEach>
-								</c:otherwise>
-								</c:choose>
-
+									<label>Ruolo <span class="text-danger"></span></label>
+									<select name="ruolo" id="ruolo" class="form-control">
+									<c:choose>
+										<c:when test="${ userCercato.ruoli == null || empty userCercato.ruoli }">
+											<option selected disabled>Seleziona il ruolo</option>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${ userCercato.ruoli }" var="ruolo">
+        											<option value="${ruolo.nome}"><c:out value="${ruolo.nome}"></c:out></option>
+    										</c:forEach>
+										</c:otherwise>
+									</c:choose>
+									<c:forEach items="${ listaRuoli }" var="ruolo">
+        									<option value="${ruolo.nome}"><c:out value="${ruolo.nome}"></c:out></option>
+    								</c:forEach>
+  									</select>
 							</div>
-							
-							
 							
 						</div>
 							
