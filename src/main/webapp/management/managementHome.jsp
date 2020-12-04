@@ -28,7 +28,7 @@
 		
 		<c:choose>
 		<c:when test="${ user.tavolo.id == null }">
-			<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/PrepareInsertTavoloServlet" role="button">Cerca Tavolo &raquo; </a></p>
+			<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/management/searchPartita.jsp" role="button">Cerca Tavolo &raquo; </a></p>
 		</c:when>
 		<c:otherwise>
 			<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/management/play.jsp" role="button">Vai all'ultimo Tavolo &raquo;</a></p>

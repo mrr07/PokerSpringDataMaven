@@ -1,7 +1,6 @@
-package it.poker.servlet.tavolo;
+package it.poker.servlet.user;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -14,19 +13,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.User;
-import it.poker.service.tavolo.TavoloService;
+import it.poker.service.user.UserService;
 
 /**
- * Servlet implementation class ListAllTavoliServlet
+ * Servlet implementation class PlayServlet
  */
-@WebServlet("/tavolo/ListAllTavoliServlet")
-public class ListAllTavoliServlet extends HttpServlet {
+@WebServlet("/PlayServlet")
+public class PlayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-    private TavoloService tavoloService;
+	private UserService userService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -37,7 +35,7 @@ public class ListAllTavoliServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListAllTavoliServlet() {
+    public PlayServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,13 +45,35 @@ public class ListAllTavoliServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		Double segno = Math.random();
+		if(segno >= 0.5) {
+			segno = 1d;
+		} else {
+			segno = -1d;
+		}
+		
+		Integer somma = (int)(Math.random()*1000);
+		
+		Integer risultato =(int)(segno*somma);
+		
 		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
 		
-		User userInSessione = (User)session.getAttribute("user");
+		Integer nuovoCredito = user.getCredito()+risultato;
 		
-		List<Tavolo> listaTavoli = tavoloService.findByIDUserWithGiocatori(userInSessione.getId());
-		request.setAttribute("listaTavoliUser", listaTavoli);
-		request.getRequestDispatcher("/tavolo/listTavoli.jsp").forward(request, response);
+		if(nuovoCredito < 0) {
+			user.setCredito(0);
+			request.getRequestDispatcher("/management/managementHome.jsp").forward(request, response);
+			return;
+		} else {
+			user.setCredito(nuovoCredito);
+		}
+		
+		userService.update(user);
+		
+		request.getRequestDispatcher("/management/play.jsp").forward(request, response);
+		
+		
 		
 	}
 

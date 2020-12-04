@@ -33,3 +33,8 @@
   }
   
 </style>
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="${pageContext.request.contextPath}/assets/js/jquery-1.10.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.js"></script>
+<script	src="${pageContext.request.contextPath}/assets/js/jqueryUI/jquery-ui.min.js"></script>  

@@ -8,7 +8,7 @@
 	<title>Gestione Users</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -76,14 +76,14 @@
 		                        <td>${ user.esperienza }</td>
 		                        <td>${ user.credito }</td>
 		                        <td>
-										<a class="btn  btn-sm btn-outline-secondary" href="ShowUserServlet?idDaVisualizzare=<c:out value = "${user.id}"/>">Visualizza</a>
+										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/user/ShowUserServlet?idDaVisualizzare=<c:out value = "${user.id}"/>">Visualizza</a>
 										<c:if test="${ user.stato == 'DISABILITATO' }">
-											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="EnableUserServlet?idDaAttivare=<c:out value = "${user.id}"/>">Attiva</a>
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/user/EnableUserServlet?idDaAttivare=<c:out value = "${user.id}"/>">Attiva</a>
 										</c:if>
 										<c:if test="${ user.stato == 'ATTIVO' }">
-											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareDeleteUserServlet?idDaEliminare=<c:out value = "${user.id}"/>">Disattiva</a>
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/user/PrepareDeleteUserServlet?idDaEliminare=<c:out value = "${user.id}"/>">Disattiva</a>
 										</c:if>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="PrepareUpdateUserServlet?idDaAggiornare=<c:out value = "${user.id}"/>">Edit</a>	
+										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/user/PrepareUpdateUserServlet?idDaAggiornare=<c:out value = "${user.id}"/>">Edit</a>	
 								</td>
 		                    </tr>
          						

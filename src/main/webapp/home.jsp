@@ -48,7 +48,7 @@
 	      	<a class="btn btn-primary btn-lg" href="tavolo/gestioneTavoli.jsp" role="button">Gestione Tavoli &raquo;</a>
 	      </c:if>
 	      <c:if test="${ admin == '1'}">
-	      	<a class="btn btn-primary btn-lg" href="PrepareSearchUserServlet" role="button">Gestione Amministrazione &raquo;</a>
+	      	<a class="btn btn-primary btn-lg" href="user/PrepareSearchUserServlet" role="button">Gestione Amministrazione &raquo;</a>
 	      </c:if>
 	      </p>
 	    </div>

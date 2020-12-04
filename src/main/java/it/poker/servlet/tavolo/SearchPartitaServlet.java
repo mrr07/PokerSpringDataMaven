@@ -1,7 +1,9 @@
 package it.poker.servlet.tavolo;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -18,16 +19,20 @@ import it.poker.dto.TavoloDTO;
 import it.poker.model.tavolo.Tavolo;
 import it.poker.model.user.User;
 import it.poker.service.tavolo.TavoloService;
+import it.poker.service.user.UserService;
 
 /**
- * Servlet implementation class UpdateTavoloServlet
+ * Servlet implementation class SearchPartitaServlet
  */
-@WebServlet("/tavolo/UpdateTavoloServlet")
-public class UpdateTavoloServlet extends HttpServlet {
+@WebServlet("/SearchPartitaServlet")
+public class SearchPartitaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
     private TavoloService tavoloService;
+	
+	@Autowired
+    private UserService userService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -38,7 +43,7 @@ public class UpdateTavoloServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateTavoloServlet() {
+    public SearchPartitaServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -56,54 +61,51 @@ public class UpdateTavoloServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// prendo i dati dalla form
-		String idDaAggiornare = request.getParameter("idDaAggiornare");
-		Long id = Long.parseLong(idDaAggiornare);
-		
 		String denominazione = request.getParameter("denominazione");
 		String cifraMinima = request.getParameter("cifraMinima");
-		String esperienzaMinima = request.getParameter("esperienzaMinima");
+		String dataCreazione = request.getParameter("dataCreazione");
+		String utenteId = request.getParameter("utenteId");
+		String creatoreId = request.getParameter("creatoreId");
 		
-		// comincia la validazione dei dati
 		TavoloDTO tavoloDTO = new TavoloDTO();
 		
-		tavoloDTO.setId(id);
 		tavoloDTO.setDenominazione(denominazione);
 		tavoloDTO.setCifraMinima(cifraMinima);
-		tavoloDTO.setEsperienzaMinima(esperienzaMinima);
+		tavoloDTO.setDataCreazione(dataCreazione);
 		
-		List<String> tavoloErrors = tavoloDTO.validazioneCreazioneTavolo();
+		List<String> tavoloErrors = tavoloDTO.validazioneSearchPartita();
 		
 		if(!tavoloErrors.isEmpty()) {
-			request.setAttribute("tavoloDaAggiornare", tavoloDTO);
 			request.setAttribute("tavoloErrors", tavoloErrors);
-			request.getRequestDispatcher("/tavolo/updateTavolo.jsp").forward(request, response);
-			return;
+			request.getRequestDispatcher("/tavolo/searchPartita.jsp").forward(request, response);
 		}
 		
-		//se arrivo qui la validazione è andata a buon fine
-		Tavolo tavoloDaAggiornare = TavoloDTO.buildModelFromDto(tavoloDTO);
+		Tavolo tavoloDaCercare = TavoloDTO.buildModelFromDto(tavoloDTO);
+		if(creatoreId != "") {
+			Long id = Long.parseLong(creatoreId);
+			User user = userService.findById(id);
+			tavoloDaCercare.setUser(user);
+		} else {
+			tavoloDaCercare.setUser(null);
+		}
 		
-		// al tavolo manca la data e l'user che ha creato il tavolo, dobbiamo recuperarli dal db
-		Tavolo tavoloTemp = tavoloService.findById(tavoloDaAggiornare.getId());
-		tavoloDaAggiornare.setDataCreazione(tavoloTemp.getDataCreazione());
-		tavoloDaAggiornare.setUser(tavoloTemp.getUser());
+		Set<User> users = new HashSet<>();
+		if(utenteId != "") {
+			Long id = Long.parseLong(utenteId);
+			User user = userService.findById(id);
+			users.add(user);
+			tavoloDaCercare.setUsers(users);
+		} else {
+			tavoloDaCercare.setUsers(users);
+		}
 		
 		
-		//aggiorno il tavolo
-		tavoloService.update(tavoloDaAggiornare);
 		
-		//ritorno alla lista di tutti i tavoli con un messaggio di successo
-		HttpSession session = request.getSession();
+		List<Tavolo> listaPartite = tavoloService.findByExample2(tavoloDaCercare);
 		
-		User userInSessione = (User)session.getAttribute("user");
+		request.setAttribute("listaPartite", listaPartite);
+		request.getRequestDispatcher("/management/listPartite.jsp").forward(request, response);
 		
-		List<Tavolo> listaTavoli = tavoloService.findByIDUserWithGiocatori(userInSessione.getId());
-		request.setAttribute("listaTavoliUser", listaTavoli);
-		request.setAttribute("successMessage", "modifica effettuata con successo");
-		request.getRequestDispatcher("/tavolo/listTavoli.jsp").forward(request, response);
-
-		return;
 	}
 
 }

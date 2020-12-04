@@ -24,7 +24,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class DeleteUserServlet
  */
-@WebServlet("/DeleteUserServlet")
+@WebServlet("/user/DeleteUserServlet")
 public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

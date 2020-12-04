@@ -20,7 +20,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class RicaricaCreditoServlet
  */
-@WebServlet("/RicaricaCreditoServlet")
+@WebServlet("/user/RicaricaCreditoServlet")
 public class RicaricaCreditoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -72,6 +72,8 @@ public class RicaricaCreditoServlet extends HttpServlet {
 		user.setCredito(user.getCredito()+credito);
 		
 		userService.update(user);
+		
+		session.setAttribute("user", user);
 		
 		request.setAttribute("successMessage", "credito ricaricato");
 		request.getRequestDispatcher("/management/managementHome.jsp").forward(request, response);

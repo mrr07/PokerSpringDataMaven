@@ -22,5 +22,9 @@ public interface UserService {
 	public List<User> listAllUsersWithTavoliAndRuoli();
 	
 	public List<User> findByExample(User user);
+	
+	public List<User> findByUsernameByLike(String username);
+	
+	public List<User> listAllUsersSpecial(String nomeRuolo, String term);
 
 }

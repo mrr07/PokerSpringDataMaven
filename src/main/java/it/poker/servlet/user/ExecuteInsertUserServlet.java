@@ -1,6 +1,7 @@
 package it.poker.servlet.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,16 @@ public class ExecuteInsertUserServlet extends HttpServlet {
 			return;
 		}
 		
+		List<User> listaUserGiaRegistrati = userService.listAllUsers();
+		for(User userGiaRegistrato : listaUserGiaRegistrati) {
+			if(userGiaRegistrato.getUsername().equals(userDTO.getUsername())){
+				userErrors = new ArrayList<String>();
+				userErrors.add("username già presente");
+				request.setAttribute("userErrors", userErrors);
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
+		}
+		
 		User userDaInserire = new User();
 		userDaInserire.setNome(nome);
 		userDaInserire.setCognome(cognome);
@@ -93,6 +104,7 @@ public class ExecuteInsertUserServlet extends HttpServlet {
 		// aggiungo il nuovo user
 		userService.addNew(userDaInserire);
 		
+		request.setAttribute("successMessage", "Ti sei registrato correttamente");
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 		
 		

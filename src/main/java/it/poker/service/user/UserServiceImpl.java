@@ -124,4 +124,14 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	@Override
+	public List<User> findByUsernameByLike(String username) {
+		return userRepository.findByUsernameByLike(username);
+	}
+
+	@Override
+	public List<User> listAllUsersSpecial(String nomeRuolo, String term) {
+		return userRepository.listAllUsersSpecial(nomeRuolo, term);
+	}
+
 }

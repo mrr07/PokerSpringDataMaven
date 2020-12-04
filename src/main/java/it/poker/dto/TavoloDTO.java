@@ -106,6 +106,24 @@ public class TavoloDTO {
 			return result;
 	}
 		
+		
+	// validazione dell'input della ricerca del tavolo
+	public List<String> validazioneSearchPartita() {
+		List<String> result = new ArrayList<String>();
+
+		String regexData = "^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\\d\\d$";
+
+		Pattern pattern = Pattern.compile(regexData);
+		Matcher matcher = pattern.matcher(dataCreazione);
+
+		if (!StringUtils.isNumeric(this.cifraMinima) && !StringUtils.isBlank(this.cifraMinima))
+			result.add("Il campo cifra minima non può essere vuoto");
+		if (matcher.matches())
+			result.add("Il campo data di registrazione non può essere vuoto");
+
+		return result;
+	}
+		
 	public static Tavolo buildModelFromDto(TavoloDTO tavoloDTO) {
 		
 		Tavolo result = new Tavolo();
@@ -116,19 +134,19 @@ public class TavoloDTO {
 			result.setId(null);
 		}
 		
-		if(tavoloDTO.getDenominazione() != null || tavoloDTO.getDenominazione() != "") {
+		if(tavoloDTO.getDenominazione() != null && tavoloDTO.getDenominazione() != "") {
 			result.setDenominazione(tavoloDTO.getDenominazione());
 		} else {
 			result.setDenominazione("");
 		}
 		
-		if(tavoloDTO.getCifraMinima() != null || tavoloDTO.getCifraMinima() != "") {
+		if(tavoloDTO.getCifraMinima() != null && tavoloDTO.getCifraMinima() != "") {
 			result.setCifraMinima(Integer.parseInt(tavoloDTO.getCifraMinima()));
 		} else {
 			result.setCifraMinima(null);
 		}
 		
-		if(tavoloDTO.getEsperienzaMinima() != null || tavoloDTO.getEsperienzaMinima() != "") {
+		if(tavoloDTO.getEsperienzaMinima() != null && tavoloDTO.getEsperienzaMinima() != "") {
 			result.setEsperienzaMinima(Integer.parseInt(tavoloDTO.getEsperienzaMinima()));
 		} else {
 			result.setEsperienzaMinima(null);

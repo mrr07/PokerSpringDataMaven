@@ -6,7 +6,7 @@
 	<title>Conferma Eliminazione</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>

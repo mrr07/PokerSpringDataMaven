@@ -22,7 +22,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class PrepareSearchUserServlet
  */
-@WebServlet("/PrepareSearchUserServlet")
+@WebServlet("/user/PrepareSearchUserServlet")
 public class PrepareSearchUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

@@ -8,7 +8,7 @@
 	<title>Gestione Tavoli</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
+    <link href="./assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -61,7 +61,7 @@
 		                </thead>
 		                <tbody>
 		                	
-		                	<c:forEach items="${listaTavoliUser}" var="tavolo" >
+		                	<c:forEach items="${listaPartite}" var="tavolo" >
          						
          					<tr>
 		                        <td>${ tavolo.id }</td>
@@ -70,9 +70,8 @@
 		                        <td>${ tavolo.esperienzaMinima }</td>
 		                        <td>${ tavolo.dataCreazione }</td>
 		                        <td>
-										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/tavolo/ShowTavoloServlet?idDaVisualizzare=<c:out value = "${tavolo.id}"/>">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/tavolo/PrepareUpdateTavoloServlet?idDaAggiornare=<c:out value = "${tavolo.id}"/>">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/tavolo/PrepareDeleteTavoloServlet?idDaEliminare=<c:out value = "${tavolo.id}"/>">Delete</a>	
+										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/management/play.jsp">Gioca</a>
+										
 								</td>
 		                    </tr>
          						

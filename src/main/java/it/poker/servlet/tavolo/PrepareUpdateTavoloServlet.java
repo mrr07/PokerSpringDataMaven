@@ -22,7 +22,7 @@ import it.poker.service.tavolo.TavoloService;
 /**
  * Servlet implementation class PrepareUpdateTavoloServlet
  */
-@WebServlet("/PrepareUpdateTavoloServlet")
+@WebServlet("/tavolo/PrepareUpdateTavoloServlet")
 public class PrepareUpdateTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

@@ -1,7 +1,6 @@
 package it.poker.servlet.filter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.Filter;
@@ -29,7 +28,10 @@ public class CheckAuthFilter implements Filter {
 			,"/header.jsp","/footer.jsp","/signin.jsp","PrepareInsertUserServlet","ExecuteInsertUserServlet"};
 	
 	// tutti i percorsi a cui solo l'admin può accedere
-	private static final String[] PROTECTED_URLS = {"/user/"};
+	private static final String[] PROTECTED_URLS_ADMIN = {"/user/"};
+	
+	// tutti i percorsi a cui solo lo special player può accedere può accedere
+	private static final String[] PROTECTED_URLS_SPECIAL = { "/tavolo/" };
 
 	public CheckAuthFilter() {
 	}
@@ -64,11 +66,11 @@ public class CheckAuthFilter implements Filter {
 			boolean special = false;
 			
 			for(Ruolo ruolo : listaRuoliUser) {
-				if(ruolo.getNome() == "Amministratore")
+				if(ruolo.getNome().equals("Amministratore"))
 					admin = true;
-				if(ruolo.getNome() == "Giocatore Speciale")
+				if(ruolo.getNome().equals("Giocatore Speciale"))
 					special = true;
-				if(ruolo.getNome() == "Giocatore Semplice")
+				if(ruolo.getNome().equals("Giocatore Semplice"))
 					classic = true;
 			}
 			
@@ -76,6 +78,12 @@ public class CheckAuthFilter implements Filter {
 			//controllo che utente abbia ruolo admin se nel path risulta presente /admin/
 			if(isPathForOnlyAdministrators(pathAttuale) && !admin) {
 				
+				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
+				return;
+			}
+			
+			if (isPathForOnlySpecialPlayers(pathAttuale) && (!special && !admin)) {
+
 				httpRequest.getRequestDispatcher("/home.jsp").forward(httpRequest, httpResponse);
 				return;
 			}
@@ -99,7 +107,16 @@ public class CheckAuthFilter implements Filter {
 	}
 	
 	private boolean isPathForOnlyAdministrators(String requestPath) {
-		for (String urlPatternItem : PROTECTED_URLS) {
+		for (String urlPatternItem : PROTECTED_URLS_ADMIN) {
+			if (requestPath.contains(urlPatternItem)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean isPathForOnlySpecialPlayers(String requestPath) {
+		for (String urlPatternItem : PROTECTED_URLS_SPECIAL) {
 			if (requestPath.contains(urlPatternItem)) {
 				return true;
 			}

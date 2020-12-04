@@ -19,7 +19,7 @@ import it.poker.service.tavolo.TavoloService;
 /**
  * Servlet implementation class PrepareDeleteUserServlet
  */
-@WebServlet("/PrepareDeleteUserServlet")
+@WebServlet("/user/PrepareDeleteUserServlet")
 public class PrepareDeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

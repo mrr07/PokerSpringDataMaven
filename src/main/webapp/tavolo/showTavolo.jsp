@@ -6,7 +6,7 @@
 	<title>Visualizza Tavolo</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -49,7 +49,7 @@
 		    </div>
 		    
 		    <div class='card-footer'>
-		        <a href="ListAllTavoliServlet" class='btn btn-outline-secondary' style='width:80px'>
+		        <a href="${pageContext.request.contextPath}/tavolo/ListAllTavoliServlet" class='btn btn-outline-secondary' style='width:80px'>
 		            <i class='fa fa-chevron-left'></i> Back
 		        </a>
 		    </div>

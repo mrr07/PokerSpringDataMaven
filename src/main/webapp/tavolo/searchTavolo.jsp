@@ -6,7 +6,7 @@
 	<title>Crea Nuovo Tavolo</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
   
     
 </head>
@@ -48,7 +48,7 @@
 					
 					
 					
-					<form name='form' method="post" action="SearchTavoloServlet" >
+					<form name='form' method="post" action="${pageContext.request.contextPath}/tavolo/SearchTavoloServlet" >
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">

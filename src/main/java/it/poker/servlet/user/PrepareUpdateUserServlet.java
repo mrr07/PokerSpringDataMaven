@@ -25,7 +25,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class PrepareUpdateUserServlet
  */
-@WebServlet("/PrepareUpdateUserServlet")
+@WebServlet("/user/PrepareUpdateUserServlet")
 public class PrepareUpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

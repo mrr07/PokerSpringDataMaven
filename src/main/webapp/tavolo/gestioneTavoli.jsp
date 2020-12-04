@@ -14,8 +14,8 @@
 	
 	<main role="main" class="container">
 		
-		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/PrepareInsertTavoloServlet" role="button">Crea Nuovo Tavolo &raquo; </a></p>
-		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/PrepareSearchTavoloServlet" role="button">Ricerca Tavolo &raquo;</a></p>
+		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/tavolo/PrepareInsertTavoloServlet" role="button">Crea Nuovo Tavolo &raquo; </a></p>
+		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/tavolo/PrepareSearchTavoloServlet" role="button">Ricerca Tavolo &raquo;</a></p>
 </main>
 <jsp:include page="../footer.jsp" />
 </body>

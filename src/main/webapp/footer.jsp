@@ -4,7 +4,7 @@
   </div>
 </footer>
     <!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="./assets/js/jquery-3.4.1.min.js" ></script>
-<!-- Boostrap bundle already includes Popper.js -->
-<script src="./assets/js/bootstrap.bundle.min.js" ></script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS
+<script src="../assets/js/jquery-3.4.1.min.js" ></script>
+ Boostrap bundle already includes Popper.js 
+<script src="../assets/js/bootstrap.bundle.min.js" ></script>-->

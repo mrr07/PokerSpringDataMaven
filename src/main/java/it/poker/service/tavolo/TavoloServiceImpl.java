@@ -114,4 +114,54 @@ public class TavoloServiceImpl implements TavoloService {
 		return tavoloRepository.findByIDUserWithGiocatori(id);
 	}
 
+	@Override
+	public List<Tavolo> findByExample2(Tavolo tavolo) {
+		
+
+		//bisogna passare al tavolo anche l'oggetto user per far funzionare la query
+		
+		
+		Date data = tavolo.getDataCreazione();
+		String dataDaInserire = null;
+		
+		if(data != null) {
+			int giorno = data.getDate();
+			int mese = data.getMonth() + 1;
+			int anno = data.getYear() + 1900;
+			
+			dataDaInserire = "'"+anno;
+			if (mese >= 1 && mese <= 9) {
+				dataDaInserire = dataDaInserire + "-0" + mese;
+			} else {
+				dataDaInserire = dataDaInserire + "-" + mese;
+			}
+			if(giorno >= 1 && giorno <= 9) {
+				dataDaInserire = dataDaInserire + "-0" + giorno + "'";
+			} else {
+				dataDaInserire = dataDaInserire + "-" + giorno + "'";
+			}
+		}
+		
+		
+		
+		
+		
+		String query = "select t from Tavolo t left join fetch t.users u where t.id = t.id";
+
+		if (StringUtils.isNotEmpty(tavolo.getDenominazione()))
+			query += " and t.denominazione like '%" + tavolo.getDenominazione() + "%' ";
+		if (tavolo.getCifraMinima() != null)
+			query += " and t.cifraMinima = " + tavolo.getCifraMinima();
+		if (dataDaInserire != null)
+				query += " and t.dataCreazione = " + dataDaInserire;
+		if(tavolo.getUser() != null)
+			query += " and t.user = " + tavolo.getUser().getId();
+		if(!tavolo.getUsers().isEmpty())
+			query += " and u.id = " + tavolo.getUsers().iterator().next().getId();
+
+		return entityManager.createQuery(query, Tavolo.class).getResultList();
+		
+		
+	}
+
 }

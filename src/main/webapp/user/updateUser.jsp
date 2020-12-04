@@ -6,7 +6,7 @@
 	<title>Modifica User</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -42,7 +42,7 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form method="post" action="UpdateUserServlet" novalidate="novalidate">
+					<form method="post" action="${pageContext.request.contextPath}/user/UpdateUserServlet" novalidate="novalidate">
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">

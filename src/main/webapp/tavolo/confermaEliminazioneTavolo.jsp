@@ -6,7 +6,7 @@
 	<title>Conferma Eliminazione</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -29,8 +29,8 @@
 		</div>
 		
 		<c:set var = "idDaEliminare" value = "${idDaEliminare}"/>
-		<p><a class="btn btn-primary btn-lg" href="DeleteTavoloServlet?idDaEliminare=<c:out value = "${idDaEliminare}"/>" role="button">Conferma &raquo; </a></p>
-		<p><a class="btn btn-primary btn-lg" href="ListAllTavoliServlet" role="button">Annulla &raquo;</a></p>
+		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/tavolo/DeleteTavoloServlet?idDaEliminare=<c:out value = "${idDaEliminare}"/>" role="button">Conferma &raquo; </a></p>
+		<p><a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/tavolo/ListAllTavoliServlet" role="button">Annulla &raquo;</a></p>
 </main>
 <jsp:include page="../footer.jsp" />
 </body>

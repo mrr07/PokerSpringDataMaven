@@ -22,7 +22,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class ShowTavoloServlet
  */
-@WebServlet("/ShowTavoloServlet")
+@WebServlet("/tavolo/ShowTavoloServlet")
 public class ShowTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

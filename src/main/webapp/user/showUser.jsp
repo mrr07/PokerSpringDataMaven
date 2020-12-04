@@ -6,7 +6,7 @@
 	<title>Visualizza User</title>
 	
 	<!-- style per le pagine diverse dalla index -->
-    <link href="./assets/css/global.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/global.css" rel="stylesheet">
     
 </head>
 <body>
@@ -73,7 +73,7 @@
 		    </div>
 		    
 		    <div class='card-footer'>
-		        <a href="ListAllUsersServlet" class='btn btn-outline-secondary' style='width:80px'>
+		        <a href="${pageContext.request.contextPath}/user/ListAllUsersServlet" class='btn btn-outline-secondary' style='width:80px'>
 		            <i class='fa fa-chevron-left'></i> Back
 		        </a>
 		    </div>

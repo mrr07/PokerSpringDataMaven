@@ -29,7 +29,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class UpdateUserServlet
  */
-@WebServlet("/UpdateUserServlet")
+@WebServlet("/user/UpdateUserServlet")
 public class UpdateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

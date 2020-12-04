@@ -25,7 +25,7 @@ import it.poker.service.tavolo.TavoloService;
 /**
  * Servlet implementation class SearchTavoloServlet
  */
-@WebServlet("/SearchTavoloServlet")
+@WebServlet("/tavolo/SearchTavoloServlet")
 public class SearchTavoloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

@@ -19,7 +19,7 @@ import it.poker.service.user.UserService;
 /**
  * Servlet implementation class ListAllUsersServlet
  */
-@WebServlet("/ListAllUsersServlet")
+@WebServlet("/user/ListAllUsersServlet")
 public class ListAllUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
